@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { motion } from "framer-motion";
 import { Scan, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -130,13 +130,18 @@ export default function Login() {
         className="relative z-10 w-full max-w-md mx-4"
       >
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 font-bold text-xl mb-2">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 font-bold text-xl mb-2"
+          >
             <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
               <Scan className="w-6 h-6 text-primary" />
             </div>
             <span>FaceGuard</span>
           </Link>
-          <p className="text-muted-foreground text-sm">Secure AI-powered authentication</p>
+          <p className="text-muted-foreground text-sm">
+            Secure AI-powered authentication
+          </p>
         </div>
         <div className="glass rounded-2xl p-8">
           <Tabs defaultValue={defaultTab}>
