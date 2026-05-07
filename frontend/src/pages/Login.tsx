@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Scan, Mail, Lock, Eye, EyeOff, GraduationCap, BookOpen } from "lucide-react";
+import { Scan, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Link, useNavigate, Navigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-
-type RoleChoice = "teacher" | "lecturer";
 
 function friendlySignupError(msg: string | undefined): string {
   if (!msg) return "Sign-up failed.";
@@ -45,7 +42,6 @@ export default function Login() {
   const [signupName, setSignupName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
-  const [signupRole, setSignupRole] = useState<RoleChoice>("teacher");
   const [signupError, setSignupError] = useState<string | null>(null);
   const [isSigningUp, setIsSigningUp] = useState(false);
 
@@ -96,7 +92,7 @@ export default function Login() {
     const { data, error } = await supabase.auth.signUp({
       email: signupEmail,
       password: signupPassword,
-      options: { data: { full_name: signupName, role: signupRole } },
+      options: { data: { full_name: signupName } },
     });
     setIsSigningUp(false);
     if (error) {
@@ -268,39 +264,6 @@ export default function Login() {
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>I am a</Label>
-                    <RadioGroup
-                      value={signupRole}
-                      onValueChange={(v) => setSignupRole(v as RoleChoice)}
-                      className="grid grid-cols-2 gap-2"
-                    >
-                      <label
-                        htmlFor="role-teacher"
-                        className={`flex items-center gap-2 rounded-md border px-3 py-2 cursor-pointer transition-colors ${
-                          signupRole === "teacher" ? "border-primary bg-primary/10" : "border-border hover:border-muted-foreground"
-                        }`}
-                      >
-                        <RadioGroupItem value="teacher" id="role-teacher" />
-                        <GraduationCap className="w-4 h-4" />
-                        <span className="text-sm">Teacher</span>
-                      </label>
-                      <label
-                        htmlFor="role-lecturer"
-                        className={`flex items-center gap-2 rounded-md border px-3 py-2 cursor-pointer transition-colors ${
-                          signupRole === "lecturer" ? "border-primary bg-primary/10" : "border-border hover:border-muted-foreground"
-                        }`}
-                      >
-                        <RadioGroupItem value="lecturer" id="role-lecturer" />
-                        <BookOpen className="w-4 h-4" />
-                        <span className="text-sm">Lecturer</span>
-                      </label>
-                    </RadioGroup>
-                    <p className="text-[11px] text-muted-foreground">
-                      Lecturers own modules; teachers are assigned to TD/TP groups.
-                      First-ever signup is automatically promoted to admin.
-                    </p>
                   </div>
                   <Button type="submit" className="w-full glow-sm" disabled={isSigningUp}>
                     {isSigningUp ? "Creating Account..." : "Create Account"}

@@ -25,3 +25,4 @@ env/
 *.db
 .pytest_cache/
 
+.vercel
