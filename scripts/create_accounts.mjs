@@ -1,8 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
+  console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_KEY env vars');
+  process.exit(1);
+}
+
 const supabase = createClient(
-  'https://spccazagwlvrwdmpgmgt.supabase.co',
-  'sb_secret_L59UnN-pjnB4qeqsqoUuCA_rBKG5JMt',
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY,
   { auth: { persistSession: false } }
 );
 
